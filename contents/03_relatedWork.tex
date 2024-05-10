@@ -1,0 +1,100 @@
+We position our contributions within related work on 
+
+
+Although studies specifically focusing on privacy-preserving methods for policy compliance in local renewable energy markets are scarce, there is a considerable body of research dedicated to the broader areas of privacy-preserving data aggregation and smart metering. This highlights a notable gap in research that specifically connects these areas to energy compliance. This section will focus on few selected studies to illustrate the spectrum of approaches in the field.
+
+We will start by exploring more general privacy-preserving data aggregation protocols beyond the context of smart metering and then delve into protocols specifically tailored for smart metering, also in connection with ZKPs. Following this work regarding ZoKrates in the context of privacy-preserving data aggregation and its applicability to smart meter data will be discussed. Lastly, we will examine the a gap in existing literature concerning the topic of nesting. However, we can explore some practical work regarding the closely related concept of recursion in relation to ZKPs.
+
+\section{Methods in Privacy-Preserving Data Aggregation (PDA)}
+
+As previously introduced, the aim this thesis is to develop a system that allows effective and verifiable compliance checks at a collective level, while still protecting individual privacy. Therefore, it is essential to privately aggregate data. This objective parallels the goal of PDA from existing literature. PDA protocols have been introduced to aggregate data from multiple sources and calculate statistics on sensitive data without infringing upon privacy \cite{PDA}. Even though not all the works discussed in this chapter are explicitly labelled as PDA, they are categorised as PDA, as they align with the definition from above. Bearing this in mind, this section discusses alternative approaches to PDA that do not necessarily rely on ZKPs, which highlights different potential  technologies for achieving similar objectives.
+
+
+\subsection{Hypergraph-Based PDA}
+Dekker et al. \cite{PDA} propose a PDA protocol, which employs a hypergraph-based detection algorithm, that probabilistically detects out-of-range user values without disclosing them to the aggregator. This protocol is suitable for aggregators working with resource-constrained users, as the hypergraph structure allows the aggregator to quickly pinpoint malicious users by examining the intersection of groups that deviate from the range. Furthermore, this protocol enables advanced algorithms like principal component analysis and decision tree classifications. However, the detection mechanism is inherently probabilistic, meaning it operates based on likelihood rather than absolute certainty. While the protocol offers strong privacy assurances, there exists a limit of colluding users beyond which privacy can be compromised.
+
+\subsubsection{Dekker's et al. \cite{PDA} Remarks on ZKPs for PDA\label{sec:malicious}}
+
+They note that a shortcoming of much previous research is the assumption of \textit{honest-but-curious} participants for PDA protocols, a model where parties are expected to follow the protocol but may attempt to learn additional information. Dekker et al. acknowledge the potential to overcome this limitation by transitioning to a \textit{malicious model}, which can be achieved through the implementation of ZKPs. However, as traditional ZKP approaches rely on a trusted setup, such as zk-SNARKs, and the computationally intensive proof generation, render them less attractive for trustless or resource constrained scenarios. 
+
+\subsection{Utilising Homomorphic Encryptions for Smart Meter Data\label{sec:homo}}
+
+Alternatively, Mohamadali et al. \cite{nhp3} introduce a protocol for data aggregation in smart grids, that employs Paillier encryption. Their protocol has various features including batch verification, fault tolerance and support for multi-category data aggregation. These features enable more detailed insights into energy demand or load. While this protocol is efficient in terms of computational resources and secure under malicious models, it has a single point of failure, due to a centralised trusted authority that manages the whole system.
+
+Similarly, Zhang et al. \cite{homo1} utilise Paillier encryption for both temporal and spatial data aggregation in smart grids, to provide utility companies with the necessary information for billing and grid management. In this context, "temporal aggregation" refers to combining data points over time and "spatial aggregation" across different locations. While it is secure under malicious models as well, they acknowledge in their security analysis that their system depends on certain technical conditions to ensure privacy, such as requiring non-symmetric data matrices and multi-element user sets.
+
+While there are several more studies that leverage homomorphic encryption for data aggregation in smart grids, this section briefly introduced those two studies, to illustrate this approach. However in summary, while these approaches allow for privacy-preserving computations on encrypted data, they  may not fully address the more complex, multi-layered computation and verification processes that will be introduced in this thesis.
+
+\subsection{Utilising ZKPs for Energy Billing}
+
+ZKPs have been implemented to verify energy usage for billing purposes in smart grids, while ensuring that the actual consumption data stays confidential.
+
+Rial et al. \cite{rial2011privacy} propose a system where electricity customers can compute non-interactive ZKPs on personal devices, that verify whether their consumption falls in certain billing tariffs without disclosing any meter data. The system supports a variety of tariffs, including time-of-use tariffs. They demonstrate that a single computer could verify billing proofs from a three week period of 27 million households in 12 days, even in their slowest unoptimised version. However their performance evaluation considers only proof size along with proof and verification time, ignoring the complexities involved in setting up the proof system.
+
+In a separate study, Jawurek et al.  \cite{jawurek2011plug} introduce a plug-in privacy component, such as a router, which generates ZKPs based on Pedersen commitments. The proof confirms the consumers time-of-use tariff without disclosing any consumption data. Unlike the study of Rial et al. \cite{rial2011privacy} this study is limited to a single tariff system. 
+
+More studies integrating ZKPs with smart metering will be discussed in later sections of this chapter where they are more contextually relevant.
+
+\subsection{Blockchains and Ledgers in PDA}
+
+Studies employing blockchains for PDA often combine these technologies with privacy-preserving methods, such as Bloom filters, homomorphic encryption, or ZKPs. This section will introduce some studies to provide an overview of the field.
+
+Mouris and Tsoutsos’ "Masquerade" protocol \cite{masq} offers a lightweight general-purpose protocol for verifiable data aggregation, optimised for computing aggregated statistics, such as histograms and averages. They are utilising Paillier encryption to encrypt private data, ZKPs to verify the correctness of the computations and the Fiat-Shamir heuristic to convert interactive ZKPs to non-interactive ones. Furthermore the protocol is adaptable enough to support smartphone clients in dynamic user environments. Despite its strengths, the reliance on a central entity managing the ledger introduces a potential single point of vulnerability and their protocol has not been peer-reviewed.
+
+The study by Mahmoud et al. \cite{mahmoud2019secure} contributes to the field PDA through its blockchain-based approach for Water Distribution Systems (WDS). It presents a method for aggregating smart meter data while providing user anonymity, applying blockchain to protect against data tampering and Bloom filters for identity verification. In doing so, the operational process becomes more transparent, as water quality and quantity or collected data, such as pipeline pressure, become verifiable. However the study acknowledges that their implementation faces immense challenges, because their blockchain's consensus algorithm relies on mining, which necessitates special mining nodes, that consume excessive energy and may not be suitable for most sensors, such as smart meters or hydraulic sensors.
+
+Similarly, Guan et al. \cite{block2} encounter comparable challenges with their mining nodes to run blockchains for PDA in smart grids. Their approach involves dividing users into groups, each with its own blockchain that records data. Similarly again, they utilise bloom filters to authenticate users. This system faces challenges in balancing privacy, computational overhead and real-time data processing as well.
+
+Homomorphic encryption is a popular choice, as multiple other studies also combine it with  blockchain. For example, Fan et al. \cite{block_fan} utilise this approach along with leader election algorithms and Boneh-Lynn-Shacham short signatures to ensure data security in their blockchain system. However, these systems may as well be confronted with the limitations of employing homomorphic encryption in scenarios like discussed in this thesis, as discussed in Section \ref{sec:homo}. 
+
+Miyamae et al. \cite{block3} combine blockchain with ZKPs for renewable energy trading. They introduce a blockchain system with an UTXO token representing electricity production. The system employs zk-SNARKs to aggregate and compress smart meter data to 1/1000th of its original size, aiming to improve scalability and ensure privacy and data integrity on-chain. However, they express concerns about the potential for the total number of smart meter records to exceed the blockchain’s capacity.
+
+\subsection{Utilising MPC}
+
+Previously in Section \ref{sec:mpcc}, MPC was introduced in the context of decentralising the trusted setup in ZoKrates, but it can be also utilised in PDA for smart meter data. 
+
+Kirschbaum's et al. \cite{mpckir} protocol introduces a MPC, where each smart meter participates in the computation of aggregated consumption data. Instead of exchanging individual consumption data, each smart meter uses a random number generation function to efficiently compute its contribution to the aggregated energy consumption data. This aggregated data, which integrates values from all meters without revealing individual meter readings, is then sent to a gateway. As a result, no participant in the network, including the gateway, can determine the individual consumption data of any specific smart meter, thereby ensuring privacy. While the system effectively aggregates data for analysis, they acknowledge it does not support the real-time control and management required in smart grid technologies.
+
+Thoma et al. \cite{mpcthom} have developed a similar system, which they also enhance with homomorphic encryption to enable additional features like real-time demand management. Besides using the MPC for PDA, this system enables each consumer send encrypted data to the utility for precise billing. It also includes a graphical user interface for a smart home control panel. This panel allows consumers to monitor their household's real-time electricity consumption, prices and billing, as well as track the electricity usage of individual devices.
+
+\subsection{Perturbation Techniques}
+
+There are alternative approaches for preserving privacy in smart metering, such as differential privacy \cite{eibl2017differential} or noise addition \cite{noise}. While these method are effective for masking individual data within aggregated datasets, they fall short in performing detailed computations or condition verification on individual data. Therefore, these studies are not discussed in detail, but they remain nonetheless interesting contributions to the field of privacy preservation in smart metering.
+
+\section{Zokrates in Privacy-Preserving Systems}
+
+As this thesis utilises ZKPs created with ZoKrates, this chapter will continue exploring system leveraging ZoKrates for privacy preservation.
+
+\subsection{ZoKrates for PDA}
+
+Ismayilov and Ozturan’s protocol \cite{ismayilov2023trustless} on the Ethereum blockchain uses ZoKrates proofs for PDA, focusing on secure summation of encrypted values. It utilises a pair of hypercube configurations for data aggregation to ensure privacy and security. Each participant's data is committed, encrypted and the integrity as well as the correctness of the aggregated data are verified using ZKPs with ZoKrates. The smart contract and user web interface support the functionality and provide a practical implementation of the protocol. While effective in maintaining individual data confidentiality and aggregate sum verification, it falls short in verifying more complex conditions within the aggregated data. Additionally they conclude that the communication overhead of their protocol needs to be reduced in future work.
+
+\subsection{ZoKrates in Other Scenarios}
+
+Adding a different perspective, Heiss et al. \cite{heiss2023verifiable} introduce a novel approach to verifiable carbon accounting in supply chains using ZoKrates. Companies can generate ZKPs and deploy them on a blockchain to allow peer-to-peer verification of their carbon footprints without disclosing sensitive data.  
+While the study is focused on carbon accounting, the use of ZKPs and zoKrates in this context offers insights applicable to the preservation privacy in energy compliance, demonstrating the potential of those in balancing verifiable environmental claims with privacy.
+
+\subsection{ZoKrates in Local Renewable Energy Markets}
+
+Eberhardt et al.\cite{Netting} utilise ZoKrates for validating energy netting in local renewable energy markets, specifically to optimise the use of locally produced energy and reduce reliance on external power sources. Their method ensures individual household energy contributions remain confidential while verifying the community’s overall energy balance.  
+
+By integrating ZKPs with commitment schemes, their approach achieves both privacy and computational correctness in the netting process. In doing so, the need for a netting algorithm to be executed directly on the blockchain is eliminated, as the algorithm is executed off-chain with ZKPs on a "Netting Entity". Instead, only a "Netting Verification Contract" is deployed on the blockchain that verifies the correctness of the end result. They propose a "Household Processing Unit" (HPU), that adds a more resourced layer to interact with the blockchain. The HPU registers signed meter readings in the netting smart contract through a blockchain transaction to make tampering evident and additionally provides a user interface for the residents. Notably, Eberhardt’s et al. work aligns with this thesis' use of ZoKrates, by demonstrating its practicality for privacy preservation of energy data in local renewable energy markets.
+
+
+\section{Exploring Nesting of ZKPs\label{sec:netting}}
+
+The concept of nesting of ZKPs has not been yet extensively explored in academic literature from an application or use case perspective. Even though the survey by Morais et al.\cite{morais2019survey}  recognises the potential of enhancing privacy-preserving validations by aggregating multiple ZKPs, they stop from delving deeper into this concept. However the theoretical foundations that enable recursion and nesting, such as the underlying cryptographic primitives, have been deeply discussed in existing literature, as introduced in Section \ref{sec:recur}.
+
+\subsection{Recursion in Cryptocurrency Platforms}
+
+Beyond academic literature, the closely related recursion of ZKPs has been effectively implemented in cryptocurrency platforms such as Polygon \cite{polygonzkEVM}. Here they enhance transaction privacy and scalability, increasing throughput while simultaneously reducing latency. This is achieved by storing only one recursive proof on the blockchain as opposed to vast amounts of single proofs.
+
+Another example is the Mina protocol \cite{minaprotocol}, that utilises recursive SNARKs to enable network nodes to store only a succinct proof instead of the entire blockchain. This single proof allows for verification of the correctness of the whole blockchain. As the proof verification time is constant, it remains the same regardless of the blockchain's size.
+
+Nonetheless, the broader applications of recursion and nesting go beyond the sector of digital assets and have yet to be fully explored.
+
+\section{Summary of Limitations and Gaps}
+
+Hypergraph-based PDA and homomorphic encryption methods face challenges in centralised vulnerabilities as well as limitations in more complex validations or condition checks. ZKPs in smart metering demonstrate privacy preservation but lack an exploration of more collective scenarios or modular verification. Blockchain implementations for PDA offer robustness but struggle with ledger management and computational efficiency. The use of ZoKrates for privacy-preserving systems has been demonstrated and highlights its capability for various applications. Lastly, the potential of nesting ZKPs in privacy-preserving systems remains largely unexplored, which highlights a gap in existing literature.
+
+In essence, the limitations identified in related research, coupled with the underexplored area of nesting, show a promising research opportunity in applying nested ZKPs for privacy-preserving collective policy compliance in local renewable energy markets.

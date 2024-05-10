@@ -1,0 +1,117 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref} % add links, but don't highlight them
+\usepackage{cleveref} % better references
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{esvect}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+%\usepackage{flushend} % balance last page
+\usepackage{soul}
+
+\usepackage{tabu}
+\usepackage{booktabs}
+\usepackage{tikz}
+
+\usepackage{enumitem}
+\usepackage{comment}
+
+%
+% ---- notes in text ---
+%
+\usepackage{xargs}                      
+\usepackage[pdftex,dvipsnames]{xcolor}  
+
+\usepackage[colorinlistoftodos,prependcaption]{todonotes} % ,textsize=tiny
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\usepackage[colorinlistoftodos]{todonotes}
+
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+    %\title{ZkServe - Verifiable Data Services for Decentralized Sharing and Trading}
+	\title{Policy Compliance in Local Energy Markets}
+
+	%\author{\IEEEauthorblockN{1\textsuperscript{st} Jonathan Heiss}
+	\author{\IEEEauthorblockN{Alvaro Alonso Domenech, Stefan Krakan}
+		\IEEEauthorblockA{\textit{Information System Engineering } \\
+			\textit{Technische Universität Berlin}\\
+			Berlin, Germany \\
+	{\{aa\}}@ise.tu-berlin.de, stefan@krakan.de}
+	}
+
+	 %\newcommand\copyrighttext{%
+	 %\footnotesize  Pre-Print Version, \textcopyright 2019 IEEE. Personal use of this material is permitted.
+	 %Permission from IEEE must be obtained for all other uses, in any current or future
+	 %media, including reprinting/republishing this material for advertising or promotional
+	 %purposes, creating new collective works, for resale or redistribution to servers or
+	 %lists, or reuse of any copyrighted component of this work in other works.
+	%DOI: \href{<http://tex.stackexchange.com>}{<DOI No.>}
+	 %}
+   %\newcommand\copyrightnotice{%
+   %\begin{tikzpicture}[remember picture,overlay]
+   %\node[anchor=south,yshift=10pt] at (current page.south) {\fbox{\parbox{\dimexpr\textwidth-\fboxsep-\fboxrule\relax}{\copyrighttext}}};
+   %\end{tikzpicture}%
+   %}
+
+	\maketitle
+	%\copyrightnotice
+
+	\begin{abstract}
+    \todo[inline]{Do in the end}
+	\end{abstract}
+
+	\begin{IEEEkeywords}
+		Blockchain, GDPR-compliance, Consent Violation Detection, Incentive Mechanisms
+	\end{IEEEkeywords}
+
+	\section{Introduction}
+	\label{sec:introduction}
+	\input{contents/01_introduction.tex}
+
+	\section{Background}
+	\label{sec:preliminaries}
+	\input{contents/02_background}
+
+	\section{Related Work}
+	\label{sec:relatedWork}
+	\input{contents/03_relatedWork}
+
+	\section{Model}
+	\label{sec:04_model}
+	\input{contents/04_model}
+
+	\section{Implementation}
+	\label{sec:implementation}
+	\input{contents/05_implementation}
+
+	\section{Evaluation}
+	\label{sec:evaluation}
+	\input{contents/06_evaluation}
+
+	\section{Conclusion}
+	\label{sec:conclusion}
+	\input{contents/07_conclusion}
+
+
+	\bibliographystyle{IEEEtran}
+	\bibliography{./references}
+
+	\vspace{12pt}
+
+\end{document}
